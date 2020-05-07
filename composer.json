@@ -1,5 +1,5 @@
 {
-  "name": "bea/mercator-domain-replacements",
+  "name": "beapi/mercator-domain-replacements",
   "description": "Force the replacement of all the original domains of the network by the corresponding mapped domains",
   "minimum-stability": "stable",
   "license": "GPL-2.0",

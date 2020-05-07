@@ -24,7 +24,7 @@ Force the replacement of all the original domains of the network by the correspo
 ## [Composer](http://composer.rarst.net/)
 
 - Add repository source : `{ "type": "vcs", "url": "https://github.com/BeAPI/mercator-domain-replacements" }`.
-- Include `"bea/mercator-domain-replacements": "dev-master"` in your composer file for last master's commits or a tag released.
+- Include `"beapi/mercator-domain-replacements": "*@stable"` in your composer file for last master's commits or a tag released.
 - Nothing more, this plugin is ready to use !
 
 # What ?
