@@ -2,7 +2,7 @@
   "name": "beapi/mercator-domain-replacements",
   "description": "Force the replacement of all the original domains of the network by the corresponding mapped domains",
   "minimum-stability": "stable",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "BeAPI",
