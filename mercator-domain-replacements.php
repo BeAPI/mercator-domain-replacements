@@ -32,7 +32,7 @@ use function Mercator\mangle_url;
 
 class Mapping {
 	/** @var array $domains */
-	private $domains = array();
+	private $domains = [];
 
 	/**
 	 * Mapping constructor.
@@ -78,13 +78,19 @@ class Mapping {
 			return;
 		}
 
-		$domain_internal = untrailingslashit( 'https://' . $current_network->domain . $current_network->path );
-		$domain_mapped   = mangle_url( untrailingslashit( $current_site->siteurl ), '', '', $current_site->id );
-		if ( $domain_internal === $domain_mapped ) {
-			return;
+		$network_domain_internal = untrailingslashit( 'https://' . $current_network->domain . $current_network->path );
+		$domain_internal         = untrailingslashit( 'https://' . $current_site->domain . $current_site->path );
+		$domain_mapped           = mangle_url( untrailingslashit( $current_site->siteurl ), '', '', $current_site->id );
+
+		// Site domain URL
+		if ( $domain_internal !== $domain_mapped ) {
+			$this->domains[ $domain_internal ] = $domain_mapped;
 		}
 
-		$this->domains[ $domain_internal ] = $domain_mapped;
+		// Network domain URL
+		if ( $network_domain_internal !== $domain_mapped ) {
+			$this->domains[ $network_domain_internal . '/content/uploads/' ] = $domain_mapped . '/content/uploads/';
+		}
 	}
 
 	/**
@@ -92,13 +98,13 @@ class Mapping {
 	 */
 	public function translate_sites_url() {
 		$site_query = new \WP_Site_Query(
-			array(
+			[
 				'fields'  => 'ids',
 				'number'  => 500,
 				'public'  => '1',
 				'order'   => 'ASC',
 				'orderby' => 'id',
-			)
+			]
 		);
 
 		$sites = $site_query->get_sites();
@@ -148,9 +154,9 @@ class Mapping {
 	 *      https://monsite.com > https://mondomain.com
 	 *      https:\/\/monsite.com > https:\/\/mondomain.com localized in JS
 	 *
-	 * @return string
-	 *
 	 * @param string $buffer
+	 *
+	 * @return string
 	 *
 	 * @author Alexandre Sadowski
 	 */
@@ -177,9 +183,9 @@ class Mapping {
 	/**
 	 * Add backslashes for JS
 	 *
-	 * @return string|string[]
-	 *
 	 * @param string $content
+	 *
+	 * @return string|string[]
 	 *
 	 * @author Alexandre Sadowski
 	 */
@@ -190,9 +196,9 @@ class Mapping {
 	/**
 	 * Transform also URL with ://, without defined scheme
 	 *
-	 * @return string|string[]
-	 *
 	 * @param string $content
+	 *
+	 * @return string|string[]
 	 *
 	 * @author Alexandre Sadowski
 	 */
