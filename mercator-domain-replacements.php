@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mercator Domain Replacements
-Version: 1.0.0
+Version: 1.0.1
 Plugin URI: https://beapi.fr
 Description: Force the replacement of all the original domains of the network by the corresponding mapped domains
 Author: Be API
@@ -89,7 +89,9 @@ class Mapping {
 
 		// Network domain URL
 		if ( $network_domain_internal !== $domain_mapped ) {
-			$this->domains[ $network_domain_internal . '/content/uploads/' ] = $domain_mapped . '/content/uploads/';
+			$upload_mapped_url                                        = wp_upload_dir()['baseurl'];
+			$upload_path                                              = str_replace( $domain_mapped, '', $upload_mapped_url );
+			$this->domains[ $network_domain_internal . $upload_path ] = $domain_mapped . $upload_path;
 		}
 	}
 
