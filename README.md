@@ -48,3 +48,9 @@ If you really like what we do or want to thank us for our quick work, feel free 
 ## License
 
 Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
+
+## Changelog
+
+### 1.0.2
+
+* Fixed: replace by active current mapped domain only for current sub-site (not use the network domain)
