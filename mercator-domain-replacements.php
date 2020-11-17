@@ -131,7 +131,7 @@ class Mapping {
 			$domain_internal = untrailingslashit( $current_site->siteurl );
 
 			foreach ( $mappings as $mapping ) {
-				/** @var $mapping \Mercator\Mapping */
+				/** @var \Mercator\Mapping $mapping */
 				if ( ! $mapping->is_active() ) {
 					continue;
 				}
@@ -187,7 +187,7 @@ class Mapping {
 	 *
 	 * @param string $content
 	 *
-	 * @return string|string[]
+	 * @return string
 	 *
 	 * @author Alexandre Sadowski
 	 */
@@ -200,7 +200,7 @@ class Mapping {
 	 *
 	 * @param string $content
 	 *
-	 * @return string|string[]
+	 * @return string
 	 *
 	 * @author Alexandre Sadowski
 	 */
