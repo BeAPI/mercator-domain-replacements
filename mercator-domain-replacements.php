@@ -89,9 +89,7 @@ class Mapping {
 
 		// Network domain URL
 		if ( $network_domain_internal !== $domain_mapped ) {
-			$upload_mapped_url                                        = wp_upload_dir()['baseurl'];
-			$upload_path                                              = str_replace( $domain_mapped, '', $upload_mapped_url );
-			$this->domains[ $network_domain_internal . $upload_path ] = $domain_mapped . $upload_path;
+			$this->domains[ $network_domain_internal ] = $domain_mapped;
 		}
 	}
 
