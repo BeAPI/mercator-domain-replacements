@@ -89,9 +89,20 @@ class Mapping {
 
 		// Network domain URL
 		if ( $network_domain_internal !== $domain_mapped ) {
-			$upload_mapped_url                                        = wp_upload_dir()['baseurl'];
-			$upload_path                                              = str_replace( $domain_mapped, '', $upload_mapped_url );
-			$this->domains[ $network_domain_internal . $upload_path ] = $domain_mapped . $upload_path;
+			// Change default upload path to the mapped upload path
+			$upload_mapped_url                   = wp_upload_dir()['baseurl'];
+			$this->domains[ $upload_mapped_url ] = str_replace( $network_domain_internal, $domain_mapped, $upload_mapped_url );
+
+			// Change default plugin path to the mapped plugin path
+			$plugin_default_path                   = plugins_url();
+			$this->domains[ $plugin_default_path ] = str_replace( $network_domain_internal, $domain_mapped, $plugin_default_path );
+
+			// Change default theme path to the mapped theme path
+			$theme_default_path                   = get_theme_file_uri();
+			$this->domains[ $theme_default_path ] = str_replace( $network_domain_internal, $domain_mapped, $theme_default_path );
+
+			// Change DNS Prefetch path
+			$this->domains[ '//' . wp_parse_url( $network_domain_internal, PHP_URL_HOST ) ] = '//' . wp_parse_url( $domain_mapped, PHP_URL_HOST );
 		}
 	}
 
