@@ -51,6 +51,12 @@ Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
 
 ## Changelog
 
+### 1.0.3
+
+* Fixed: Fix the mapped upload path
+* Add the mapped plugin and theme path
+* Change the dns-prefetch path
+
 ### 1.0.2
 
 * Fixed: replace by active current mapped domain only for current sub-site (not use the network domain)
