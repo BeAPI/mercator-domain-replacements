@@ -150,6 +150,9 @@ class Mapping {
 				$GLOBALS['mercator_current_mapping'] = $mapping;
 
 				$mapped_url = mangle_url( $domain_internal, '', '', $site_id );
+
+				$GLOBALS['mercator_current_mapping'] = $_tmp;
+
 				if ( $mapped_url === $domain_internal ) {
 					continue;
 				}
