@@ -51,10 +51,6 @@ Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
 
 ## Changelog
 
-### 1.0.4
-
-* Fixed: Quick fix urls (specially on sitemap.xml)
-
 ### 1.0.3
 
 * Fixed: Fix the mapped upload path
