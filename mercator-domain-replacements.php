@@ -110,15 +110,22 @@ class Mapping {
 	 * @return void
 	 */
 	public function translate_sites_url() {
-		$site_query = new \WP_Site_Query(
-			[
-				'fields'  => 'ids',
-				'number'  => 500,
-				'public'  => '1',
-				'order'   => 'ASC',
-				'orderby' => 'id',
-			]
-		);
+		$site_query_args = [
+			'fields'  => 'ids',
+			'number'  => 500,
+			'public'  => '1',
+			'order'   => 'ASC',
+			'orderby' => 'id',
+		];
+
+		/**
+		 * Filter args use to retrieve sites for domain mapping replacement.
+		 *
+		 * @param array $site_query_args
+		 */
+		$site_query_args = apply_filters( 'mercator.domain_replacement.site_query_args', $site_query_args );
+
+		$site_query = new \WP_Site_Query( $site_query_args );
 
 		$sites = $site_query->get_sites();
 		if ( empty( $sites ) ) {
