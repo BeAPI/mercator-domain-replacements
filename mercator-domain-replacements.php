@@ -44,17 +44,7 @@ class Mapping {
 			return;
 		}
 
-		// For FACET WP only replace before
-		$action        = isset( $_POST['action'] ) ? sanitize_key( $_POST['action'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
-		$is_css_tpl    = isset( $_POST['data']['template'] ) && 'wp' == $_POST['data']['template']; // phpcs:ignore WordPress.Security.NonceVerification
-		$valid_actions = [
-			'facetwp_refresh',
-			'facetwp_autocomplete_load',
-		];
-
-		$is_preload = ! in_array( $action, $valid_actions );
-
-		if ( ! $is_preload && $is_css_tpl && 'facetwp_autocomplete_load' != $action ) {
+		if ( $this->is_facet_wp() ) {
 			add_action( 'init', [ $this, 'domain_mapping_replacements' ], 0 );
 		}
 
@@ -241,6 +231,31 @@ class Mapping {
 	 */
 	private function replace_scheme( $content ) {
 		return str_replace( [ 'http://', 'https://' ], '//', $content );
+	}
+
+	/**
+	 * Is facet WP
+	 *
+	 * @return bool
+	 *
+	 * @author Léonard Phoumpakka
+	 *
+	 */
+	protected function is_facet_wp() {
+		$action        = isset( $_POST['action'] ) ? sanitize_key( $_POST['action'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$is_css_tpl    = isset( $_POST['data']['template'] ) && 'wp' == $_POST['data']['template']; // phpcs:ignore WordPress.Security.NonceVerification
+		$valid_actions = [
+			'facetwp_refresh',
+			'facetwp_autocomplete_load',
+		];
+
+		$is_preload = ! in_array( $action, $valid_actions );
+
+		if ( ! $is_preload && $is_css_tpl && 'facetwp_autocomplete_load' !== $action ) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
