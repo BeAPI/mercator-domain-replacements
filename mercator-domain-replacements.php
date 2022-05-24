@@ -106,7 +106,7 @@ class Mapping {
 			$this->domains[ $theme_default_path ] = str_replace( $network_domain_internal, $domain_mapped, $theme_default_path );
 
 			// Change DNS Prefetch path
-			$this->domains[ '//' . wp_parse_url( $network_domain_internal, PHP_URL_HOST ) ] = '//' . wp_parse_url( $domain_mapped, PHP_URL_HOST );
+			$this->domains[ "href='//" . wp_parse_url( $network_domain_internal, PHP_URL_HOST ) ] = "href='//" . wp_parse_url( $domain_mapped, PHP_URL_HOST );
 		}
 	}
 
