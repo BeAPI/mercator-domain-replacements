@@ -51,6 +51,11 @@ Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
 
 ## Changelog
 
+
+### 1.0.7
+
+* Fixed: Handle the parent theme urls too
+
 ### 1.0.6
 
 * Fixed: Fix url on FacetWP refresh

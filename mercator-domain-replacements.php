@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mercator Domain Replacements
-Version: 1.0.6
+Version: 1.0.7
 Plugin URI: https://beapi.fr
 Description: Force the replacement of all the original domains of the network by the corresponding mapped domains
 Author: Be API
