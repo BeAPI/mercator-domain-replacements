@@ -52,7 +52,7 @@ Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
 ## Changelog
 
 
-### 1.0.7
+### 1.0.8
 
 * Fixed: Handle the parent theme urls too
 
