@@ -65,6 +65,10 @@ class Mapping {
 
 		$this->translate_sites_url();
 		$this->translate_network_url();
+
+		// Allow third-party plugins to add custom domain replacements
+		$this->domains = apply_filters( 'mercator_domain_replacements_custom', $this->domains );
+
 		if ( empty( $this->domains ) ) {
 			return;
 		}
