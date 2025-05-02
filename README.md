@@ -51,6 +51,9 @@ Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
 
 ## Changelog
 
+### 1.0.9
+
+* Fixed: Mapping network private domain
 
 ### 1.0.8
 
