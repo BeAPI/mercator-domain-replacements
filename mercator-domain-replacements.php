@@ -202,11 +202,15 @@ class Mapping {
 					$source,
 					$this->replace_slashes( $source ),
 					$this->replace_scheme( $source ),
+					$this->url_encode_url( $source ),
+					$this->url_encode_url( $this->replace_scheme( $source ) ),
 				],
 				[
 					$target,
 					$this->replace_slashes( $target ),
 					$this->replace_scheme( $target ),
+					$this->url_encode_url( $target ),
+					$this->url_encode_url( $this->replace_scheme( $target ) ),
 				],
 				$buffer
 			);
@@ -239,6 +243,19 @@ class Mapping {
 	 */
 	private function replace_scheme( $content ) {
 		return str_replace( [ 'http://', 'https://' ], '//', $content );
+	}
+
+	/**
+	 * Encode the URL for use in URL parameters
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 *
+	 * @author Jules Fell
+	 */
+	private function url_encode_url( $content ) {
+		return urlencode( $content );
 	}
 
 	/**
