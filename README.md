@@ -87,6 +87,11 @@ GPL-3.0-or-later. See [LICENSE](LICENSE).
 
 ## Changelog
 
+### 1.1.0
+
+- Changed: minimum PHP version is 8.0
+- Docs: README refresh (requirements, hooks, installation)
+
 ### 1.0.10
 
 - Fixed: support mapping for encoded URLs
