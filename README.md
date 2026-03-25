@@ -2,85 +2,121 @@
 
 # Mercator Domain Replacements
 
-This plugin is an addon for <a href="https://github.com/humanmade/Mercator">Mercator</a>
+Add-on for [Mercator](https://github.com/humanmade/Mercator) on **WordPress multisite**. It rewrites the HTML output so internal URLs (network domain, subsite URLs, uploads, plugins, themes, DNS prefetch, etc.) use the **mapped public domains** instead of the original multisite domains.
 
-Force the replacement of all the original domains of the network by the corresponding mapped domains
+Mercator maps domains to sites; this plugin makes sure the front-end output consistently reflects those mappings—including variants used in JavaScript (`https:\/\/…`), protocol-relative URLs (`//…`), and URL-encoded strings.
 
-# Requirements
+## Requirements
 
-- [WordPress](https://wordpress.org/) 4.6+
-- Tested up to 5.4.*
-- PHP 5.6+
+- [WordPress](https://wordpress.org/) **multisite** (4.6+)
+- [Mercator](https://github.com/humanmade/Mercator) installed and domain mappings configured
+- PHP **8.0+**
 
-# Installation
+The plugin does nothing if Mercator is unavailable or if `$GLOBALS['mercator_current_mapping']` is not set in context.
 
-## WordPress
+## How it works
 
-- Download and install using the built-in WordPress plugin installer.
-- Site activate in the "Plugins" area of the admin.
-- Optionally drop the entire `mercator-domain-replacements` directory into mu-plugins.
-- Nothing more, this plugin is ready to use !
+1. On `init`, it builds a map of source URLs → mapped URLs for the current network and for sites returned by `WP_Site_Query` (public sites by default).
+2. It starts an output buffer callback that runs `str_replace` over the full response for each pair, including escaped and encoded forms.
 
-## [Composer](http://composer.rarst.net/)
+**Note:** This is a full-page string replacement. Use it in environments where that trade-off is acceptable.
 
-- Add repository source : `{ "type": "vcs", "url": "https://github.com/BeAPI/mercator-domain-replacements" }`.
-- Include `"beapi/mercator-domain-replacements": "*@stable"` in your composer file for last master's commits or a tag released.
-- Nothing more, this plugin is ready to use !
+## Features
 
-# What ?
+- Replaces subsite internal URLs with Mercator `mangle_url()` results for active mappings.
+- Aligns network-level URLs (uploads, plugins, parent and child theme URIs, DNS prefetch host) with the mapped domain when the main site differs from the mapped URL.
+- Optional early pass on `init` (priority `0`) for **FacetWP** AJAX refresh / autocomplete requests so URLs stay correct in those responses.
+
+## Hooks
+
+### `mercator.domain_replacement.site_query_args`
+
+Filters the arguments passed to `WP_Site_Query` when collecting sites for replacement (default: public sites, ordered by ID, max 500).
+
+```php
+add_filter( 'mercator.domain_replacement.site_query_args', function ( array $args ): array {
+	$args['number'] = 1000;
+	return $args;
+} );
+```
+
+## Installation
+
+### WordPress
+
+1. Install and activate **Mercator** according to its documentation.
+2. Install this plugin (ZIP upload, or clone into `wp-content/plugins/` or `wp-content/mu-plugins/`).
+3. **Network activate** if you use it as a normal plugin, or place the folder under `mu-plugins` if you run it as a must-use plugin.
+
+### Composer
+
+Package: `beapi/mercator-domain-replacements` (type `wordpress-muplugin`). Point Composer’s installer to your MU-plugins directory, for example:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/BeAPI/mercator-domain-replacements"
+    }
+  ],
+  "require": {
+    "beapi/mercator-domain-replacements": "^1.0"
+  },
+  "extra": {
+    "installer-paths": {
+      "wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"]
+    }
+  }
+}
+```
+
+Adjust `installer-paths` to match your project layout.
 
 ## Contributing
 
-Please refer to the [contributing guidelines](.github/CONTRIBUTING.md) to increase the chance of your pull request to be merged and/or receive the best support for your issue.
+Issues and pull requests are welcome on [GitHub](https://github.com/BeAPI/mercator-domain-replacements). Please describe steps to reproduce for bugs and, when possible, the multisite + mapping setup you use.
 
-### Issues & features request / proposal
+## Credits
 
-If you identify any errors or have an idea for improving the plugin, feel free to open an [issue](../../issues/new). Please provide as much info as needed in order to help us resolving / approve your request.
-
-# Who ?
-
-Created by [Be API](https://beapi.fr), the French WordPress leader agency since 2009. Based in Paris, we are more than 30 people and always [hiring](https://beapi.workable.com) some fun and talented guys. So we will be pleased to work with you.
-
-This plugin is only maintained, which means we do not guarantee some free support. Consider reporting an [issue](#issues--features-request--proposal) and be patient. 
-
-If you really like what we do or want to thank us for our quick work, feel free to [donate](https://www.paypal.me/BeAPI) as much as you want / can, even 1€ is a great gift for buying cofee :)
+Made by [Be API](https://beapi.fr). This plugin is **maintained on a best-effort basis**; we do not guarantee free support. If it helps your project, you can [support us](https://www.paypal.me/BeAPI).
 
 ## License
 
-Mercator Domain Replacements is licensed under the [GPLv3 or later](LICENSE.md).
+GPL-3.0-or-later. See [LICENSE](LICENSE).
 
 ## Changelog
 
 ### 1.0.10
 
-* Fixed: Support mapping for encoded urls
+- Fixed: support mapping for encoded URLs
 
 ### 1.0.9
 
-* Fixed: Mapping network private domain
+- Fixed: mapping network private domain
 
 ### 1.0.8
 
-* Fixed: Handle the parent theme urls too
+- Fixed: handle parent theme URLs
 
 ### 1.0.6
 
-* Fixed: Fix url on FacetWP refresh
+- Fixed: URLs on FacetWP refresh
 
 ### 1.0.5
 
-* Add filter to modify site query args 
+- Add filter to modify site query args
 
-### 1.0.4	
+### 1.0.4
 
-* Fixed: Quick fix urls (specially with polylang / sitemap.xml)
+- Fixed: URL fixes (notably Polylang / `sitemap.xml`)
 
 ### 1.0.3
 
-* Fixed: Fix the mapped upload path
-* Add the mapped plugin and theme path
-* Change the dns-prefetch path
+- Fixed: mapped upload path
+- Add mapped plugin and theme paths
+- Change DNS-prefetch path
 
 ### 1.0.2
 
-* Fixed: replace by active current mapped domain only for current sub-site (not use the network domain)
+- Fixed: use active mapped domain for the current subsite only (not the network domain)

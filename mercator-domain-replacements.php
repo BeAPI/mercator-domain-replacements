@@ -286,7 +286,6 @@ class Mapping {
 
 		return false;
 	}
-
 }
 
 new Mapping();
